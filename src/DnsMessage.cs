@@ -45,12 +45,12 @@ namespace codecrafters_dns_server.src
             //Masking para sacar el primer Bit. 0b significa que es binario
             QR = (MessageBytes[2] & 0b10000000) == 1;
             // la mascara devuelve un byte 0xxxx000. pero debe devolver en el rango 0000 xxxx. shifteamos 3 veces a la derecha
-            OPCODE = (byte)((byte)(MessageBytes[2] & 0b01111000) >> 3);
+            OPCODE = (byte)((MessageBytes[2] & 0b01111000) >> 3);
             AA = (byte)(MessageBytes[2] & 0b00000100) == 1;
             TC = (byte)(MessageBytes[2] & 0b00000010) == 1;
             RD = (byte)(MessageBytes[2] & 0b00000001) == 1;
             RA = (byte)(MessageBytes[3] & 0b10000000) == 1;
-            Z = (byte)((byte)(MessageBytes[3] & 0b01110000) >> 4);
+            Z = (byte)((MessageBytes[3] & 0b01110000) >> 4);
             RCODE = (byte)(MessageBytes[3] & 0b00001111);
             QDCOUNT = (byte)(MessageBytes[4] << 8  | MessageBytes[5]);
             ANCOUNT = (byte)(MessageBytes[6] << 8 | MessageBytes[7]);
