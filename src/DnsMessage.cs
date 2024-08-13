@@ -8,28 +8,29 @@ namespace codecrafters_dns_server.src
 {
     public class DnsMessage
     {
-        public byte[] MessageBytes { get; }
-        public DnsMessage(byte[] MessageBytes) {
-            this.MessageBytes = MessageBytes ?? throw new ArgumentNullException(nameof(MessageBytes));
-
-            ParseHeader(MessageBytes);
-        }
         public ushort ID { get; set; }
         public bool QR { get; set; }
 
         public byte OPCODE { get; set; }
         public bool AA { get; set; }
         public bool TC { get; set; }
-        public bool RD {  get; set; }
-        public bool RA {  get; set; }
-        public byte  Z {  get; set; }
+        public bool RD { get; set; }
+        public bool RA { get; set; }
+        public byte Z { get; set; }
         public byte RCODE { get; set; }
         public byte QDCOUNT { get; set; }
         public byte ANCOUNT { get; set; }
         public byte NSCOUNT { get; set; }
         public byte ARCOUNT { get; set; }
+        public byte[] MessageBytes { get; }
+        public DnsMessage(byte[] MessageBytes) {
+            this.MessageBytes = MessageBytes ?? throw new ArgumentNullException(nameof(MessageBytes));
 
-        private void ParseHeader(byte[] MessageBytes)
+            ParseHeader(MessageBytes);
+        }
+        
+
+         void ParseHeader(byte[] MessageBytes)
         {
             if (MessageBytes == null) 
                 throw new ArgumentNullException(nameof(MessageBytes));
@@ -62,7 +63,7 @@ namespace codecrafters_dns_server.src
         {
             var Response = new byte[12];
 
-            Response[0] = (byte)(ID << 8);
+            Response[0] = (byte)(ID >> 8);
             Response[1] = (byte)(ID & 0b11111111);
             Response[2] = (byte)(
                 1 << 7 |
